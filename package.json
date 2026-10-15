@@ -1,0 +1,89 @@
+{
+  "name": "forgels-vscode",
+  "displayName": "ForgeLS",
+  "description": "VSCode LSP client for the forgels server binary. Beta supports solidity only.",
+  "version": "0.1.0",
+  "type": "commonjs",
+  "publisher": "forgels",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/forgels/forgels-vscode"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": ["Programming Languages"],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onLanguage:solidity"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "solidity",
+        "aliases": ["Solidity"],
+        "extensions": [".sol"]
+      }
+    ],
+    "configuration": {
+      "title": "ForgeLS",
+      "properties": {
+        "forgels.serverPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the forgels server binary. Empty means auto resolve."
+        },
+        "forgels.trace": {
+          "type": "string",
+          "enum": ["off", "messages", "verbose"],
+          "default": "off",
+          "description": "LSP trace level."
+        },
+        "forgels.enableSolidity": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable solidity language support (beta)."
+        },
+        "forgels.enableCairo": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable cairo support. Reserved for later."
+        },
+        "forgels.enableNoir": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable noir support. Reserved for later."
+        },
+        "forgels.enableMove": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable move support. Reserved for later."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "typecheck": "bunx tsc --noEmit",
+    "lint": "bunx biome lint src",
+    "format": "bunx biome check --write src",
+    "format:check": "bunx biome check src",
+    "check": "bun run typecheck && bun run lint && bun run format:check && bun test && bun run build",
+    "build": "bunx tsc -p ./tsconfig.build.json",
+    "test": "bun test",
+    "package": "bunx @vscode/vsce package"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.15",
+    "@types/bun": "latest",
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.6.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
