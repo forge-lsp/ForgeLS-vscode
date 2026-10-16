@@ -40,6 +40,16 @@
           "default": "",
           "description": "Path to the forgels server binary. Empty means auto resolve."
         },
+        "forgels.serverVersion": {
+          "type": "string",
+          "default": "v0.1.0-pre1",
+          "description": "Server release to download when no binary is found. Use a tag such as v0.1.0-pre1, or latest once stable releases exist."
+        },
+        "forgels.autoDownload": {
+          "type": "boolean",
+          "default": true,
+          "description": "Download the server binary from GitHub releases when missing."
+        },
         "forgels.trace": {
           "type": "string",
           "enum": [

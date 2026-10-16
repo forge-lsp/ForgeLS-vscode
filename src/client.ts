@@ -7,7 +7,8 @@ import {
 } from "vscode-languageclient/node";
 import type { ForgelsConfig, TraceLevel } from "./config";
 import { getActiveLanguageIds } from "./languages";
-import { resolveServer } from "./server";
+import { buildServerArgs } from "./server";
+import { ensureServer } from "./server-install";
 
 let client: LanguageClient | undefined;
 
@@ -32,11 +33,10 @@ function buildClientOptions(
   };
 }
 
-function buildServerOptions(config: ForgelsConfig): ServerOptions {
-  const resolved = resolveServer(config.serverPath);
+function buildServerOptions(command: string): ServerOptions {
   return {
-    command: resolved.command,
-    args: [...resolved.args],
+    command,
+    args: [...buildServerArgs()],
     options: { shell: false },
   };
 }
@@ -72,8 +72,11 @@ export async function startClient(
   }
   const output = vscode.window.createOutputChannel("ForgeLS");
   context.subscriptions.push(output);
-  const resolved = resolveServer(config.serverPath);
-  const serverOptions = buildServerOptions(config);
+  const command = await ensureServer(context, config);
+  if (command === undefined) {
+    return;
+  }
+  const serverOptions = buildServerOptions(command);
   const clientOptions = buildClientOptions(config, output);
   const next = new LanguageClient("forgels", "ForgeLS", serverOptions, clientOptions);
   client = next;
@@ -85,7 +88,7 @@ export async function startClient(
     await next.stop().catch(() => undefined);
     const detail = error instanceof Error ? error.message : "unknown error";
     const picked = await vscode.window.showErrorMessage(
-      `ForgeLS failed to start (command: ${resolved.command}): ${detail}`,
+      `ForgeLS failed to start (command: ${command}): ${detail}`,
       "Open Settings",
     );
     if (picked === "Open Settings") {

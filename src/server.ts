@@ -12,7 +12,7 @@ export function resolveServerCommand(configuredPath: string): string {
   return pickServerCommand(configuredPath, getBundledPath());
 }
 
-function getBundledPath(): string | undefined {
+export function getBundledPath(): string | undefined {
   const ext = vscode.extensions.getExtension("forgels.forgels-vscode");
   if (ext === undefined) {
     return undefined;

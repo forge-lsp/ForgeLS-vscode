@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { getDefaultConfig, parseConfig } from "./config";
+import { DEFAULT_SERVER_VERSION } from "./server-download";
 
 describe("config", () => {
   test("defaults enable solidity only", () => {
@@ -8,6 +9,8 @@ describe("config", () => {
     expect(cfg.enableCairo).toBe(false);
     expect(cfg.trace).toBe("off");
     expect(cfg.serverPath).toBe("");
+    expect(cfg.serverVersion).toBe(DEFAULT_SERVER_VERSION);
+    expect(cfg.autoDownload).toBe(true);
   });
 
   test("parseConfig narrows unknown input with fallback", () => {
@@ -72,5 +75,25 @@ describe("config", () => {
     expect(cfg.enableCairo).toBe(false);
     expect(cfg.enableNoir).toBe(false);
     expect(cfg.enableMove).toBe(false);
+  });
+
+  test("parseConfig reads server version and auto download", () => {
+    const store = new Map<string, unknown>([
+      ["serverVersion", "v0.1.0-pre1"],
+      ["autoDownload", false],
+    ]);
+    const cfg = parseConfig((key: string): unknown => store.get(key));
+    expect(cfg.serverVersion).toBe("v0.1.0-pre1");
+    expect(cfg.autoDownload).toBe(false);
+  });
+
+  test("parseConfig falls back for blank version and bad flag", () => {
+    const store = new Map<string, unknown>([
+      ["serverVersion", "   "],
+      ["autoDownload", "yes"],
+    ]);
+    const cfg = parseConfig((key: string): unknown => store.get(key));
+    expect(cfg.serverVersion).toBe(DEFAULT_SERVER_VERSION);
+    expect(cfg.autoDownload).toBe(true);
   });
 });
