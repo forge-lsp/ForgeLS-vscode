@@ -1,4 +1,5 @@
 {
+  "forgels.serverPath": "/Volumes/Workspace/projects/forgels/target/debug/forgels",
   "editor.quickSuggestions": {
     "other": true,
     "comments": false,

@@ -39,8 +39,7 @@
       "args": [
         "--disable-extensions",
         "--new-window",
-        "${workspaceFolder}/test-fixtures/basic",
-        "${workspaceFolder}/test-fixtures/basic/hello.sol",
+        "${workspaceFolder}/test-fixtures",
         "--extensionDevelopmentPath=${workspaceFolder}",
         "--extensionTestsPath=${workspaceFolder}/dist/test/stay-open"
       ],
