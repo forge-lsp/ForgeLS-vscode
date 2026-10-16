@@ -47,6 +47,8 @@ bun run build
 - Integration: `bun run test:integration` compiles `src/test` to
   `dist/test` then runs `vscode-test` in the Extension Host. Needs
   internet once to download VS Code and a display to launch it.
+- Live: `bun run test:live` builds then opens the fixture in a host
+  that stays running until Ctrl+C. Same fixture as F5 debug.
 
 ## Config
 

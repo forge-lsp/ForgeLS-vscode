@@ -29,7 +29,8 @@
         ],
         "extensions": [
           ".sol"
-        ]
+        ],
+        "configuration": "./language-configuration.json"
       }
     ],
     "grammars": [
@@ -91,16 +92,17 @@
     }
   },
   "scripts": {
-    "typecheck": "bunx tsc --noEmit",
-    "lint": "bunx biome lint src",
-    "format": "bunx biome check --write src",
-    "format:check": "bunx biome check src",
+    "typecheck": "bunx tsc --noEmit && bunx tsc -p ./tsconfig.scripts.json",
+    "lint": "bunx biome lint src scripts",
+    "format": "bunx biome check --write src scripts",
+    "format:check": "bunx biome check src scripts",
     "check": "bun run typecheck && bun run lint && bun run format:check && bun test && bun run compile:test && bun run build",
     "build": "bunx tsc -p ./tsconfig.build.json",
-    "test": "bun test src/config.test.ts src/languages.test.ts src/server-resolve.test.ts",
+    "test": "bun test src/config.test.ts src/languages.test.ts src/server-resolve.test.ts src/server-download.test.ts",
     "compile:test": "bunx tsc -p ./tsconfig.test.json",
     "test:vscode": "vscode-test",
     "test:integration": "bun run compile:test && vscode-test",
+    "test:live": "bun run compile:test && bun run build && bun scripts/live-test.ts",
     "package": "bunx @vscode/vsce package"
   },
   "dependencies": {
