@@ -38,6 +38,12 @@
     {
       "includes": ["src/**/*.test.ts"],
       "linter": { "rules": { "suspicious": { "noConsole": "off" } } }
+    },
+    {
+      "includes": ["src/test/**/*.ts"],
+      "javascript": {
+        "globals": ["suite", "test", "suiteSetup", "suiteTeardown", "setup", "teardown"]
+      }
     }
   ]
 }

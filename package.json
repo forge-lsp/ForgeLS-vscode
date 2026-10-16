@@ -13,7 +13,9 @@
   "engines": {
     "vscode": "^1.90.0"
   },
-  "categories": ["Programming Languages"],
+  "categories": [
+    "Programming Languages"
+  ],
   "main": "./dist/extension.js",
   "activationEvents": [
     "onLanguage:solidity"
@@ -22,8 +24,12 @@
     "languages": [
       {
         "id": "solidity",
-        "aliases": ["Solidity"],
-        "extensions": [".sol"]
+        "aliases": [
+          "Solidity"
+        ],
+        "extensions": [
+          ".sol"
+        ]
       }
     ],
     "configuration": {
@@ -36,7 +42,11 @@
         },
         "forgels.trace": {
           "type": "string",
-          "enum": ["off", "messages", "verbose"],
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
           "default": "off",
           "description": "LSP trace level."
         },
@@ -68,9 +78,12 @@
     "lint": "bunx biome lint src",
     "format": "bunx biome check --write src",
     "format:check": "bunx biome check src",
-    "check": "bun run typecheck && bun run lint && bun run format:check && bun test && bun run build",
+    "check": "bun run typecheck && bun run lint && bun run format:check && bun test && bun run compile:test && bun run build",
     "build": "bunx tsc -p ./tsconfig.build.json",
-    "test": "bun test",
+    "test": "bun test src/config.test.ts src/languages.test.ts src/server-resolve.test.ts",
+    "compile:test": "bunx tsc -p ./tsconfig.test.json",
+    "test:vscode": "vscode-test",
+    "test:integration": "bun run compile:test && vscode-test",
     "package": "bunx @vscode/vsce package"
   },
   "dependencies": {
@@ -79,8 +92,12 @@
   "devDependencies": {
     "@biomejs/biome": "^2.5.15",
     "@types/bun": "latest",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^22.0.0",
     "@types/vscode": "^1.90.0",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.1.0",
+    "mocha": "^11.7.6",
     "typescript": "^5.6.0"
   },
   "peerDependencies": {
