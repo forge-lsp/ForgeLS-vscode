@@ -1,30 +1,15 @@
+import { existsSync } from "node:fs";
 import * as path from "node:path";
 import * as vscode from "vscode";
+import { buildServerArgs as buildPureArgs, pickServerCommand } from "./server-resolve";
 
 export interface ServerResolution {
   readonly command: string;
   readonly args: readonly string[];
 }
 
-function firstNonEmpty(values: readonly string[]): string | undefined {
-  for (const v of values) {
-    if (v.trim().length > 0) {
-      return v.trim();
-    }
-  }
-  return undefined;
-}
-
 export function resolveServerCommand(configuredPath: string): string {
-  const picked = firstNonEmpty([configuredPath]);
-  if (picked !== undefined) {
-    return picked;
-  }
-  const bundled = getBundledPath();
-  if (bundled !== undefined) {
-    return bundled;
-  }
-  return "forgels";
+  return pickServerCommand(configuredPath, getBundledPath());
 }
 
 function getBundledPath(): string | undefined {
@@ -33,11 +18,14 @@ function getBundledPath(): string | undefined {
     return undefined;
   }
   const candidate = path.join(ext.extensionPath, "bin", "forgels");
+  if (!existsSync(candidate)) {
+    return undefined;
+  }
   return candidate;
 }
 
 export function buildServerArgs(): readonly string[] {
-  return [];
+  return buildPureArgs();
 }
 
 export function resolveServer(configuredPath: string): ServerResolution {
