@@ -3,8 +3,9 @@ import {
   LanguageClient,
   type LanguageClientOptions,
   type ServerOptions,
+  Trace,
 } from "vscode-languageclient/node";
-import type { ForgelsConfig } from "./config";
+import type { ForgelsConfig, TraceLevel } from "./config";
 import { getActiveLanguageIds } from "./languages";
 import { resolveServer } from "./server";
 
@@ -40,6 +41,21 @@ function buildServerOptions(config: ForgelsConfig): ServerOptions {
   };
 }
 
+function toTraceLevel(level: TraceLevel): Trace {
+  switch (level) {
+    case "off":
+      return Trace.Off;
+    case "messages":
+      return Trace.Messages;
+    case "verbose":
+      return Trace.Verbose;
+    default: {
+      const _exhaustive: never = level;
+      return _exhaustive;
+    }
+  }
+}
+
 export function isStarted(): boolean {
   return client !== undefined;
 }
@@ -51,13 +67,31 @@ export async function startClient(
   if (client !== undefined) {
     return;
   }
+  if (buildDocumentSelector(config).length === 0) {
+    return;
+  }
   const output = vscode.window.createOutputChannel("ForgeLS");
   context.subscriptions.push(output);
+  const resolved = resolveServer(config.serverPath);
   const serverOptions = buildServerOptions(config);
   const clientOptions = buildClientOptions(config, output);
   const next = new LanguageClient("forgels", "ForgeLS", serverOptions, clientOptions);
   client = next;
-  await next.start();
+  try {
+    await next.start();
+    await next.setTrace(toTraceLevel(config.trace));
+  } catch (error) {
+    client = undefined;
+    await next.stop().catch(() => undefined);
+    const detail = error instanceof Error ? error.message : "unknown error";
+    const picked = await vscode.window.showErrorMessage(
+      `ForgeLS failed to start (command: ${resolved.command}): ${detail}`,
+      "Open Settings",
+    );
+    if (picked === "Open Settings") {
+      await vscode.commands.executeCommand("workbench.action.openSettings", "forgels");
+    }
+  }
 }
 
 export async function stopClient(): Promise<void> {
