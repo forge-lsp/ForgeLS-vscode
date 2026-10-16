@@ -17,8 +17,12 @@ src/
   config.ts      # forgels.* settings
   languages.ts   # language table and beta gate
   server.ts      # binary resolve
+  server-resolve.ts # pure resolve logic, unit tested
+  test/suite/   # integration suite, runs in host
 docs/
   architecture.md
+test-fixtures/
+  basic/        # hello.sol fixture workspace
 .opencode/agents/
   forgels-vscode-planner.md
   forgels-vscode-executor.md
@@ -33,6 +37,16 @@ bunx tsc --noEmit
 bun test
 bun run build
 ```
+
+## Testing
+
+- Unit: `bun test` runs `src/*.test.ts` only. Integration files live
+  in `src/test` and use the `.suite.ts` suffix so bun skips them.
+  Add new unit tests as `src/<name>.test.ts` and list them in the
+  `test` script.
+- Integration: `bun run test:integration` compiles `src/test` to
+  `dist/test` then runs `vscode-test` in the Extension Host. Needs
+  internet once to download VS Code and a display to launch it.
 
 ## Config
 
