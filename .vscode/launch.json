@@ -8,7 +8,10 @@
       "runtimeExecutable": "${execPath}",
       "args": [
         "--disable-extensions",
-        "${workspaceFolder}/test-fixtures/basic"
+        "--new-window",
+        "--user-data-dir=${workspaceFolder}/.vscode-test/debug-profile",
+        "${workspaceFolder}/test-fixtures/basic",
+        "${workspaceFolder}/test-fixtures/basic/hello.sol"
       ],
       "outFiles": ["${workspaceFolder}/dist/**/*.js"],
       "preLaunchTask": "compile-extension"
@@ -20,9 +23,26 @@
       "runtimeExecutable": "${execPath}",
       "args": [
         "--disable-extensions",
+        "--new-window",
         "${workspaceFolder}/test-fixtures/basic",
         "--extensionDevelopmentPath=${workspaceFolder}",
         "--extensionTestsPath=${workspaceFolder}/dist/test/runner"
+      ],
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "preLaunchTask": "compile-extension"
+    },
+    {
+      "name": "Debug Extension (stay open)",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",
+      "args": [
+        "--disable-extensions",
+        "--new-window",
+        "${workspaceFolder}/test-fixtures/basic",
+        "${workspaceFolder}/test-fixtures/basic/hello.sol",
+        "--extensionDevelopmentPath=${workspaceFolder}",
+        "--extensionTestsPath=${workspaceFolder}/dist/test/stay-open"
       ],
       "outFiles": ["${workspaceFolder}/dist/**/*.js"],
       "preLaunchTask": "compile-extension"
