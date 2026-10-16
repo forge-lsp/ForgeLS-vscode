@@ -1,0 +1,118 @@
+{
+  "name": "Solidity",
+  "scopeName": "source.solidity",
+  "fileTypes": ["sol"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#definitions" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#constants" },
+    { "include": "#calls" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.solidity",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.solidity",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.solidity",
+          "begin": "(hex|unicode)?\"",
+          "end": "\"",
+          "patterns": [{ "name": "constant.character.escape.solidity", "match": "\\\\." }]
+        },
+        {
+          "name": "string.quoted.single.solidity",
+          "begin": "(hex|unicode)?'",
+          "end": "'",
+          "patterns": [{ "name": "constant.character.escape.solidity", "match": "\\\\." }]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.hex.solidity",
+          "match": "\\b0[xX][0-9a-fA-F]+\\b"
+        },
+        {
+          "name": "constant.numeric.decimal.solidity",
+          "match": "\\b\\d[\\d_]*(\\.\\d[\\d_]*)?([eE][+-]?\\d+)?\\b"
+        }
+      ]
+    },
+    "definitions": {
+      "patterns": [
+        {
+          "name": "meta.definition.contract.solidity",
+          "match": "\\b(contract|interface|library|struct|enum|event|error)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": { "name": "keyword.other.solidity" },
+            "2": { "name": "entity.name.type.solidity" }
+          }
+        },
+        {
+          "name": "meta.definition.function.solidity",
+          "match": "\\b(function|constructor|modifier|fallback|receive)\\s*([A-Za-z_][A-Za-z0-9_]*)?",
+          "captures": {
+            "1": { "name": "keyword.other.solidity" },
+            "2": { "name": "entity.name.function.solidity" }
+          }
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.solidity",
+          "match": "\\b(pragma|import|as|from|is|returns|return|if|else|for|while|do|break|continue|try|catch|throw|emit|new|delete|using|assembly|unchecked|revert|abstract|virtual|override)\\b"
+        },
+        {
+          "name": "keyword.other.solidity",
+          "match": "\\b(public|private|internal|external|pure|view|payable|constant|immutable|transient|memory|storage|calldata|indexed|anonymous)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.solidity",
+          "match": "\\b(address|bool|string|bytes|mapping|uint|int|fixed|ufixed)(\\d+)?\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.solidity",
+          "match": "\\b(true|false)\\b"
+        },
+        {
+          "name": "constant.other.denomination.solidity",
+          "match": "\\b(wei|gwei|szabo|finney|ether|seconds|minutes|hours|days|weeks|years)\\b"
+        }
+      ]
+    },
+    "calls": {
+      "patterns": [
+        {
+          "name": "entity.name.function.solidity",
+          "match": "\\b([A-Za-z_][A-Za-z0-9_]*)(?=\\s*\\()"
+        }
+      ]
+    }
+  }
+}

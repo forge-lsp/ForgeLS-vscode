@@ -32,6 +32,13 @@
         ]
       }
     ],
+    "grammars": [
+      {
+        "language": "solidity",
+        "scopeName": "source.solidity",
+        "path": "./syntaxes/solidity.tmLanguage.json"
+      }
+    ],
     "configuration": {
       "title": "ForgeLS",
       "properties": {
