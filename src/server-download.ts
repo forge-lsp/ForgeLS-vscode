@@ -5,7 +5,7 @@ export const GITHUB_OWNER = "forge-lsp";
 
 export const GITHUB_REPO = "ForgeLS";
 
-export const DEFAULT_SERVER_VERSION = "v0.1.0-pre1";
+export const DEFAULT_SERVER_VERSION = "v0.1.0-pre2";
 
 export function findServerBinary(dir: string, name: string): string | undefined {
   const direct = [join(dir, name), join(dir, "bin", name)];

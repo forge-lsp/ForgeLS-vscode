@@ -51,7 +51,7 @@ bun run build
 ## Config
 
 - `forgels.serverPath`: path override. Empty means auto resolve.
-- `forgels.serverVersion`: release to download when missing. Default `v0.1.0-pre1`.
+- `forgels.serverVersion`: release to download when missing. Default `v0.1.0-pre2`.
 - `forgels.autoDownload`: download the binary when missing. Default true.
 - `forgels.trace`: `off`, `messages`, `verbose`.
 - `forgels.enableSolidity`: default true.

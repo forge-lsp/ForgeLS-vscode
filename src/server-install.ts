@@ -57,22 +57,25 @@ async function showError(message: string): Promise<void> {
   }
 }
 
-async function installServer(config: ForgelsConfig, cached: string): Promise<string | undefined> {
-  const triple = getAssetTriple(os.platform(), os.arch());
-  if (triple === undefined) {
-    await showError(
-      `ForgeLS has no prebuilt binary for ${os.platform()}-${os.arch()}. Set forgels.serverPath to a local build.`,
-    );
-    return undefined;
+async function resolveWantedVersion(config: ForgelsConfig): Promise<string | undefined> {
+  if (config.serverVersion !== "latest") {
+    return config.serverVersion;
   }
-  const version =
-    config.serverVersion === "latest" ? await resolveLatestVersion(fetch) : config.serverVersion;
+  const version = await resolveLatestVersion(fetch);
   if (version === undefined) {
     await showError(
       "ForgeLS server download failed: could not resolve the latest release. Set forgels.serverVersion to a tag such as v0.1.0-pre1.",
     );
     return undefined;
   }
+  return version;
+}
+
+async function installServer(
+  cached: string,
+  triple: string,
+  version: string,
+): Promise<string | undefined> {
   const url = buildDownloadUrl(version, triple);
   const dir = path.dirname(cached);
   mkdirSync(dir, { recursive: true });
@@ -128,7 +131,18 @@ export async function ensureServer(
   if (bundled !== undefined && existsSync(bundled)) {
     return bundled;
   }
-  const cached = path.join(context.globalStorageUri.fsPath, "bin", binaryName());
+  const triple = getAssetTriple(os.platform(), os.arch());
+  if (triple === undefined) {
+    await showError(
+      `ForgeLS has no prebuilt binary for ${os.platform()}-${os.arch()}. Set forgels.serverPath to a local build.`,
+    );
+    return undefined;
+  }
+  const version = await resolveWantedVersion(config);
+  if (version === undefined) {
+    return undefined;
+  }
+  const cached = path.join(context.globalStorageUri.fsPath, "bin", version, binaryName());
   if (existsSync(cached)) {
     return cached;
   }
@@ -139,5 +153,5 @@ export async function ensureServer(
     );
     return undefined;
   }
-  return installServer(config, cached);
+  return installServer(cached, triple, version);
 }
