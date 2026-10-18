@@ -2,6 +2,7 @@
   "name": "forgels-vscode",
   "displayName": "ForgeLS",
   "description": "VSCode LSP client for the forgels server binary. Beta supports solidity only.",
+  "icon": "images/icon.png",
   "version": "0.1.0",
   "type": "commonjs",
   "publisher": "forgels",
@@ -103,7 +104,8 @@
     "test:vscode": "vscode-test",
     "test:integration": "bun run compile:test && vscode-test",
     "test:live": "bun run compile:test && bun run build && bun scripts/live-test.ts",
-    "package": "bunx @vscode/vsce package"
+    "package": "bunx @vscode/vsce package",
+    "publish:vscode": "bunx @vscode/vsce publish"
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1"

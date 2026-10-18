@@ -1,0 +1,26 @@
+# Ship only what the extension needs at runtime.
+# Syntax: same as .gitignore. Negation (!) re-includes a path.
+
+.vscode/**
+src/**
+scripts/**
+test-fixtures/**
+test/**
+tests/**
+docs/**
+.caches/**
+.opencode/**
+out/**
+dist/test/**
+*.tsbuildinfo
+*.vsix
+.gitignore
+.gitattributes
+.vscodeignore
+tsconfig*.json
+biome.json
+bun.lock
+.vscode-test.mjs
+opencode.json
+CLAUDE.md
+.vscode-test/**

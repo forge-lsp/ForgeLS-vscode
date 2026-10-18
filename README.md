@@ -2,6 +2,13 @@
 
 Scope: VSCode LSP client for the forgels server binary. Beta supports solidity only.
 
+## Install
+
+- From the marketplace: install `ForgeLS` published by `forgels`.
+- Open any `.sol` file. On first run the extension downloads the
+  matching `forgels` server binary from GitHub releases automatically.
+  Set `forgels.serverPath` to use your own binary instead.
+
 ## Status
 
 - LSP client scaffold done. Solidity beta active.
