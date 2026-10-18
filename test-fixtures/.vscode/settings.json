@@ -1,5 +1,6 @@
 {
-  "forgels.serverPath": "/Volumes/Workspace/projects/forgels/target/debug/forgels",
+  "forgels.serverPath": "/Volumes/Workspace/projects/forgels/target/release/forgels",
+  "forgels.trace": "verbose",
   "editor.quickSuggestions": {
     "other": true,
     "comments": false,
