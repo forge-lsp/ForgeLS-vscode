@@ -5,11 +5,15 @@
   "icon": "images/icon.png",
   "version": "0.1.0",
   "type": "commonjs",
-  "publisher": "forgels",
+  "publisher": "ForgeLS",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/forgels/forgels-vscode"
+    "url": "https://github.com/forge-lsp/ForgeLS-vscode"
+  },
+  "homepage": "https://github.com/forge-lsp/ForgeLS-vscode#readme",
+  "bugs": {
+    "url": "https://github.com/forge-lsp/ForgeLS-vscode/issues"
   },
   "engines": {
     "vscode": "^1.90.0"
